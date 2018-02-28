@@ -20,7 +20,22 @@ public static List<Person> createPeople(){
 	);
 }
 
+
+
 public static void main(String [] args){
+	
+	//Implementing Formula the new way
+	
+	Formula fr=new Formula() {
+		public double calculate(int a) {
+			return Math.sqrt(a);
+		}
+	};
+	
+	fr.calculate(10);
+	fr.sqrt(200);
+	
+	//// END Formula.. 
 	List<Person> people=createPeople();
 	//Example Get in Uppercase a List of All Female older than 18
 	//The Old Way
@@ -31,11 +46,39 @@ public static void main(String [] args){
 			names.add(person.getName().toUpperCase());
 		}
 	}
-	List<String>names2=people.stream().filter(people->people.getAge()>18)
+	List<String>names2=people.stream().filter(person->person.getAge()>18)
 			.map(Person::getName)
 			.map(String::toUpperCase)
 			.collect(toList());
 			
 	System.out.println(names);
+	
+	//Print All Males
+	
+	List<String> names3=people.stream().filter(person->person.getGender()==Gender.MALE)
+			.map(Person::getName)
+			.map(String::toUpperCase)
+			.collect(toList());
+	
+	System.out.println(names3);
+	
+	//Apply Foreach Directly
+	
+	people.stream().filter(person-> person.getGender()==Gender.MALE)
+	.map(person-> new Person(person.getName().toUpperCase(),person.getGender(),person.getAge()))
+	.forEach(System.out::println);
+	// Get Person Age
+	
+	people.stream().map(Person::getAge)
+	.forEach(System.out::println);
+	
+	//Get Total Age of aLL PEOPLE
+	
+	System.out.println(people.stream().mapToInt(Person::getAge)
+	.sum()
+	
+	
+	);
+	
 }
 }
